@@ -1,0 +1,91 @@
+from datetime import datetime
+
+tasks = []
+
+def add_task():
+    name = input("Enter task: ")
+    deadline = input("Enter deadline (YYYY-MM-DD HH:MM): ")
+    priority = input("Priority (high/medium/low): ").lower()
+
+    deadline = datetime.strptime(deadline, "%Y-%m-%d %H:%M")
+
+    tasks.append({
+        "name": name,
+        "deadline": deadline,
+        "priority": priority,
+        "done": False
+    })
+
+    print("✅ Task added\n")
+
+
+def view_tasks():
+    if not tasks:
+        print("No tasks\n")
+        return
+
+    print("\n📋 Tasks:")
+    for i, t in enumerate(tasks):
+        status = "✅" if t["done"] else "❌"
+        print(f"{i+1}. {t['name']} | {t['deadline']} | {t['priority']} | {status}")
+    print()
+
+
+def show_overdue():
+    now = datetime.now()
+    print("\n⚠️ Overdue Tasks:")
+
+    found = False
+    for t in tasks:
+        if not t["done"] and t["deadline"] < now:
+            print("-", t["name"], "|", t["deadline"])
+            found = True
+
+    if not found:
+        print("No overdue tasks")
+    print()
+
+
+def mark_done():
+    view_tasks()
+    if tasks:
+        i = int(input("Enter task number: ")) - 1
+        if 0 <= i < len(tasks):
+            tasks[i]["done"] = True
+            print("✅ Marked as done\n")
+
+
+def delete_task():
+    view_tasks()
+    if tasks:
+        i = int(input("Enter task number to delete: ")) - 1
+        if 0 <= i < len(tasks):
+            tasks.pop(i)
+            print("🗑️ Deleted\n")
+
+
+while True:
+    print("==== SMART TO-DO MANAGER ====")
+    print("1. Add Task")
+    print("2. View Tasks")
+    print("3. Show Overdue")
+    print("4. Mark Done")
+    print("5. Delete Task")
+    print("6. Exit")
+
+    choice = input("Choose: ")
+
+    if choice == "1":
+        add_task()
+    elif choice == "2":
+        view_tasks()
+    elif choice == "3":
+        show_overdue()
+    elif choice == "4":
+        mark_done()
+    elif choice == "5":
+        delete_task()
+    elif choice == "6":
+        break
+    else:
+        print("Invalid choice\n")
