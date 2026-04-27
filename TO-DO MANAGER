@@ -65,7 +65,7 @@ def delete_task():
 
 
 while True:
-    print("==== SMART TO-DO MANAGER ====")
+    print("==== TO-DO MANAGER ====")
     print("1. Add Task")
     print("2. View Tasks")
     print("3. Show Overdue")
